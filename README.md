@@ -1,1 +1,1 @@
-# zoo
+# Welcome to the RedisAI Zoo
