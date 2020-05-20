@@ -6,9 +6,11 @@
 # Note that they could also be ported to RedisAI SCRIPT quite
 # easily, so the client doesn't need to perform Numpy operations.
 
-
+import argparse
 import numpy as np
 import cv2
+import os
+import sys
 import redisai
 
 
@@ -189,8 +191,9 @@ def predict_from_files(filenames, key,
                        host=DEFAULT_HOST,
                        port=DEFAULT_PORT):
 
-    r = redisai.Client(host=host, port=port)
     names = load_classes(names_file)
+
+    r = redisai.Client(host=host, port=port)
 
     outputs = []
 
@@ -208,5 +211,26 @@ def predict_from_files(filenames, key,
 
     return outputs
 
+
 if __name__ == '__main__':
-    print("******")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--filenames', type=str, default='', help='input files')
+    parser.add_argument('--key', type=str, default='yolov3', help='model key')
+    parser.add_argument('--names', type=str, default='coco.names', help='file containing Coco label names')
+    parser.add_argument('--prefix', type=str, default='', help='key prefix')
+    parser.add_argument('--host', type=str, default='120.0.0.1', help='Redis host')
+    parser.add_argument('--port', type=int, default=6379, help='Redis port')
+    opt = parser.parse_args()
+
+    if not opt.filenames:
+        print("No filenames specified")
+        sys.exit(0)
+
+    filenames = opt.filenames.split(',')
+
+    ROOT_DIR = os.path.dirname(os.path.realpath(__file__))
+    names = os.path.join(ROOT_DIR, '..', '..', opt.names)
+
+    out = predict_from_files(filenames, opt.key, names_file=names)
+
+    print(out)

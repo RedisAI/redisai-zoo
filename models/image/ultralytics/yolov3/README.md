@@ -1,3 +1,11 @@
+---
+architecture: yolov3
+framework: pytorch
+purpose: object-detection
+datatype: image
+language: python
+---
+
 # YOLOv3
 
 Description.

@@ -1,0 +1,30 @@
+{
+  "name": "ultralytics-yolov3-spp",
+  "tags": "image object-detection",
+  "framework": "pytorch",
+  "export": {
+    "args": {
+      "filename": "model.pt",
+      "device": "cpu"
+    }
+  },
+  "deploy": [
+    {
+      "key": "yolov3",
+      "type": "model",
+      "backend": "TORCH",
+      "device": "cpu",
+      "filename": "model.pt"
+    }
+  ],
+  "predict": {
+    "python": {
+      "script": "predict.py",
+      "args": {
+        "key": "yolov3",
+        "names": "assets/coco.names",
+        "filenames": ""
+      }
+    }
+  }
+}
