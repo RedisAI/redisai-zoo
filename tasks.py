@@ -220,7 +220,7 @@ def predict(c,
     #                         predict/python/')
 
 
-@task
+@task(name="list")
 def list_models(c):
     matches = search_models(query=None)
 
@@ -228,7 +228,7 @@ def list_models(c):
         print(f"{name}\t\t{os.path.relpath(zooconf, ROOT_DIR)}")
 
 
-@task
+@task(name="find")
 def query_models(c,
                  query):
     matches = search_models(query)
